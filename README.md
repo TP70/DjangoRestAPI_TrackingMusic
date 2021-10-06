@@ -30,3 +30,5 @@ Bonus:
 for that artist and their most recently played track.
   - all these are available using the filter in the main localhost
 
+-->>  I also created an option to delete an existent track as a plus.
+

@@ -42,3 +42,8 @@ class RecentTracksListView(generics.ListAPIView):
 class ArtistListView(generics.ListAPIView):
     serializer_class = ArtistSerializer
     queryset = Track.objects.all().distinct()
+
+
+class DeleteTracksView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ArtistSerializer
+    queryset = Track.objects.all()
