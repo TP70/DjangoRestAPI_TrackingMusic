@@ -1,6 +1,6 @@
 import json
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, status
+from rest_framework import generics, status, viewsets
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from .serializers import TrackSeedSerializer, TrackSerializer, ArtistSerializer
@@ -21,19 +21,6 @@ class TrackSeedView(generics.CreateAPIView):
         return Response(data={'status': 'success'}, status=status.HTTP_201_CREATED)
 
 
-class TrackListCreateView(generics.ListCreateAPIView):
-    serializer_class = TrackSerializer
-    queryset = Track.objects.all()
-    filter_backends = (DjangoFilterBackend, SearchFilter)
-    filterset_fields = ('id', 'title', 'artist')
-    search_fields = ('id', 'title', 'artist')
-
-
-class TrackDetailView(generics.RetrieveAPIView):
-    serializer_class = TrackSerializer
-    queryset = Track.objects.all()
-
-
 class RecentTracksListView(generics.ListAPIView):
     serializer_class = TrackSerializer
     queryset = Track.objects.order_by('-last_play')[:100]
@@ -44,6 +31,9 @@ class ArtistListView(generics.ListAPIView):
     queryset = Track.objects.all().distinct()
 
 
-class DeleteTracksView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ArtistSerializer
+class TrackViewSet(viewsets.ModelViewSet):
+    serializer_class = TrackSerializer
     queryset = Track.objects.all()
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filterset_fields = ('id', 'title', 'artist')
+    search_fields = ('id', 'title', 'artist')
